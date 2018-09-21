@@ -6,6 +6,7 @@ repositories {
 }
 
 dependencies {
+    
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     expectedBy project(":movie-common")
     testCompile "junit:junit:4.12"
