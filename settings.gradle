@@ -1,0 +1,3 @@
+rootProject.name = 'movie'
+
+include 'movie-common', 'movie-jvm', 'movie-js', 'app'
