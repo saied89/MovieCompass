@@ -1,1 +1,9 @@
 language: java
+install: true
+
+jdk:
+- oraclejdk8
+
+# needed for gradlde build https://guides.gradle.org/executing-gradle-builds-on-travisci/
+script:
+- ./gradlew build --scan -s
