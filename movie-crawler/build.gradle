@@ -1,6 +1,5 @@
-plugins {
-    id 'org.jetbrains.kotlin.jvm'
-}
+apply plugin: 'kotlin-platform-jvm'
+
 
 
 repositories {
@@ -22,7 +21,7 @@ compileKotlin {
 
 dependencies {
     
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:jdk8-$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile 'org.jsoup:jsoup:1.11.3'
     compile 'org.litote.kmongo:kmongo:3.8.3'
 
