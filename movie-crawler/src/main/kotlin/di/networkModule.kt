@@ -1,5 +1,6 @@
 package di
 
+import api.MetacriticApi
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
@@ -19,6 +20,7 @@ const val METACRITIC_API_NAME = "METACRITIC_API_NAME"
 val NetwokModule = module {
     single { createOkHttpClient() }
     single(METACRITIC_API_NAME) { provideMetacriticRetrofit(get()) }
+    single { createWebService<MetacriticApi>(get(METACRITIC_API_NAME)) }
 }
 
 
