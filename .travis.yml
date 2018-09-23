@@ -45,4 +45,4 @@ directories:
 - $HOME/.gradle/wrapper/
 - $HOME/.android/build-cache
 
-#script: ./gradlew connectedAndroidTest
+script: ./gradlew connectedAndroidTest
