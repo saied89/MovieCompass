@@ -9,6 +9,6 @@ internal class MetacriticHtmlStringKtTest {
         val htmlStr: MetacriticHtmlString =
                 javaClass.getResource("MetacriticSampleHtml.html").readText()
         val movies = htmlStr.getMovies()
-        assertEquals(10, movies.size)
+        assertEquals(100, movies.size)
     }
 }
