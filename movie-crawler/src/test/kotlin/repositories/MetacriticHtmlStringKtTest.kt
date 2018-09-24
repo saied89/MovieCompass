@@ -1,7 +1,6 @@
 package repositories
 
 import org.junit.jupiter.api.Assertions.*
-import models.Movie
 
 internal class MetacriticHtmlStringKtTest {
 
@@ -10,6 +9,6 @@ internal class MetacriticHtmlStringKtTest {
         val htmlStr: MetacriticHtmlString =
                 javaClass.getResource("MetacriticSampleHtml.html").readText()
         val movies = htmlStr.getMovies()
-        assertEquals(100, movies.size)
+        assertEquals(10, movies.size)
     }
 }
