@@ -10,6 +10,7 @@ ext{
     koin_version = '1.0.0'
     retrofit_version = '2.4.0'
     rxjava_version = '2.2.0'
+    junit5_version = '5.3.1'
 }
 
 compileKotlin {
@@ -53,8 +54,9 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0'
     ////
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
+    testImplementation 'org.mockito:mockito-junit-jupiter:2.22.0'
 
     expectedBy project(':movie-common')
 }

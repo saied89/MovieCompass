@@ -1,0 +1,7 @@
+
+movie-crawler/build/
+.gradle/
+.idea/
+build/
+*.iml
+local\.properties
