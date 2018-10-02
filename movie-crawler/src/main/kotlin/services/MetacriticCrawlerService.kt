@@ -2,41 +2,27 @@ package services
 
 import api.MetacriticApi
 import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.schedulers.Schedulers
 import repositories.MovieRepository
 import repositories.getMovies
-import java.lang.Exception
+import kotlin.Exception
 
 class MetacriticCrawlerService(val metacriticApi: MetacriticApi, val movieRepository: MovieRepository){
     fun crawlAllMovies(pages:Int = 100){
-        (0..pages).map {pageInd ->
-            metacriticApi.getPage(pageInd)
-        }.apply {
-//            Observable.zip(this, {
-//
-//            })
-            Observable.fromIterable(this)
-                    .flatMap {task ->
-                        task
-                                .observeOn(Schedulers.trampoline())
-                                .map {
-                                    if(it.response() != null && it.response()?.isSuccessful ?: false)
-                                        it.response()!!.body()?.getMovies()
-                                    else
-                                        throw Exception("Error retrieving page ${it.response()?.raw()?.request()?.url()?.queryParameter("page") ?: 0}")
-                                }
-                    }.toList()
-                    .subscribe { result, throwable ->
-                        result.apply {
-                            val res = toList()
-                                    .filterNotNull()
-                                    .flatten()
-                            movieRepository.initDB(res)
-                        }
-                    }
-        }
-
+        Observable.fromIterable(0..pages)
+                .flatMap {
+                    metacriticApi.getPage(it)
+                }.toList()
+                .subscribe { res, err ->
+                    val allMovies = res.mapIndexed { index, result ->
+                        if(result.response() != null && result.response()?.isSuccessful ?: false)
+                            result.response()!!.body()!!.getMovies()
+                        else
+                            throw MetacriticGetPageException(index, result.error())
+                    }.flatten()
+                    movieRepository.initDB(allMovies)
+                }
     }
 
 }
+
+class MetacriticGetPageException(pageNum: Int, error: Throwable?): Exception("There was an error getting page \"$pageNum\": ${error?.message ?: "Error with empty message!"}")

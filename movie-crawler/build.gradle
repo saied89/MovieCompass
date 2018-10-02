@@ -6,13 +6,6 @@ repositories {
     mavenCentral()
 }
 
-ext{
-    koin_version = '1.0.0'
-    retrofit_version = '2.4.0'
-    rxjava_version = '2.2.0'
-    junit5_version = '5.3.1'
-}
-
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
@@ -22,6 +15,12 @@ test{
 }
 
 
+ext{
+    koin_version = '1.0.0'
+    retrofit_version = '2.4.0'
+    rxjava_version = '2.2.0'
+    junit5_version = '5.3.1'
+}
 
 
 dependencies {
@@ -46,7 +45,6 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-    testImplementation "com.squareup.retrofit2:retrofit-mock:$retrofit_version"
     ////
 
     ////reactiveStreams
@@ -56,7 +54,9 @@ dependencies {
     ////
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
-    testImplementation 'org.mockito:mockito-junit-jupiter:2.22.0'
+    testImplementation "org.mockito:mockito-junit-jupiter:2.22.0"
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC2'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
 
     expectedBy project(':movie-common')
 }
