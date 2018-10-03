@@ -1,9 +1,10 @@
 import Komponents.Crawler
+import di.AppModule
 import di.NetwokModule
 import org.koin.standalone.StandAloneContext
 
-fun main(args: Array<String>){
-    StandAloneContext.startKoin(listOf(NetwokModule))
+fun main(vararg args: String){
+    StandAloneContext.startKoin(listOf(NetwokModule, AppModule))
     Crawler().crawlMovies()
 }
 

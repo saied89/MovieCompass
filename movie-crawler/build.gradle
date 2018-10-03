@@ -22,6 +22,15 @@ ext{
     junit5_version = '5.3.1'
 }
 
+//jar {
+//    manifest {
+//        attributes 'Main-Class': 'main.MainKt'
+//    }
+//
+//    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+//}
+
+
 
 dependencies {
     
@@ -45,6 +54,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
     ////
 
     ////reactiveStreams
