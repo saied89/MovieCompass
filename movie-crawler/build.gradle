@@ -16,7 +16,7 @@ test{
 
 
 ext{
-    koin_version = '1.0.0'
+    koin_version = '1.0.1'
     retrofit_version = '2.4.0'
     rxjava_version = '2.2.0'
     junit5_version = '5.3.1'
@@ -56,6 +56,8 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
     ////
+    
+    
 
     ////reactiveStreams
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"

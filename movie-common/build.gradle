@@ -6,6 +6,7 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
+    compile 'org.litote.kmongo:kmongo-id:3.8.3'
     testCompile "org.jetbrains.kotlin:kotlin-test-annotations-common"
     testCompile "org.jetbrains.kotlin:kotlin-test-common"
 }
