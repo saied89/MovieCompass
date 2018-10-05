@@ -5,10 +5,12 @@ import models.Movie
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.koin.standalone.StandAloneContext.startKoin
 import org.koin.standalone.inject
 import org.koin.test.KoinTest
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class MovieRepositoryImpTest: KoinTest{
 
 
