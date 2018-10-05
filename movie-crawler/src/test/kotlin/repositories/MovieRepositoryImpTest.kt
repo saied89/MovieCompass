@@ -22,8 +22,8 @@ internal class MovieRepositoryImpTest: KoinTest{
 
     @Test
     fun `save 2 movies to db and check them`(){
-        val movie1 = Movie("title1")
-        val movie2 = Movie("title2")
+        val movie1 = Movie(title = "title1")
+        val movie2 = Movie(title = "title2")
         movieRepository.saveMovies(listOf(movie1, movie2))
         val res = movieRepository.getMovies()
         assertEquals(2, res.size)

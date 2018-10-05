@@ -11,5 +11,5 @@ fun MetacriticHtmlString.getMovies(): List<Movie> =
             .select(".summary_row")
             .map { element ->
                 val title = element.select(".title a").html()
-                Movie(title)
+                Movie(title = title)
             }
