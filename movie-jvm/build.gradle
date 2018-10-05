@@ -8,7 +8,7 @@ repositories {
 dependencies {
     
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    expectedBy project(":movie-common")
+    implementation project(":movie-common")
     testCompile "junit:junit:4.12"
     testCompile "org.jetbrains.kotlin:kotlin-test"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit"

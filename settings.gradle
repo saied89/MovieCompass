@@ -1,4 +1,4 @@
 rootProject.name = 'movie'
 
-include 'movie-common', 'movie-jvm', 'movie-js', 'app', 'movie-crawler'
+include 'movie-common', 'movie-jvm', 'app', 'movie-crawler'
 
