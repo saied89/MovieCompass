@@ -26,4 +26,5 @@ private fun provideMetacriticCrawlerService(metacriticApi: MetacriticApi, movieR
         MetacriticCrawlerService(metacriticApi, movieRepository)
 
 private fun provideMongoCollection(): MongoCollection<Movie> =
-        KMongo.createClient().getDatabase(COLLECTION_NAME).getCollection<Movie>()
+        KMongo.createClient().getDatabase(COLLECTION_NAME).getCollection()
+
