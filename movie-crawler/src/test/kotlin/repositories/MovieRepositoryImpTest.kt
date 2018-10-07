@@ -8,13 +8,13 @@ import org.litote.kmongo.KMongo
 import org.litote.kmongo.deleteMany
 import org.litote.kmongo.getCollection
 
-private const val COLLECTION_NAME = "movieTest"
+private const val DB_NAME = "movieTest"
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class MovieRepositoryImpTest{
 
 
-    val movieTestCollection: MongoCollection<Movie> = KMongo.createClient().getDatabase(COLLECTION_NAME).getCollection()
+    val movieTestCollection: MongoCollection<Movie> = KMongo.createClient().getDatabase(DB_NAME).getCollection()
     val movieRepository = MovieRepositoryImp(movieTestCollection)
 
     @BeforeEach
