@@ -1,10 +1,7 @@
 language: android
 jdk: oraclejdk8
 
-sudo: required
-
-services:
-  - mongodb
+services: mongodb
 
 env:
   global:
@@ -12,45 +9,49 @@ env:
     - ANDROID_BUILD_TOOLS=27.0.3
 
 android:
-  components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
-    - tools
-    - platform-tools
-    - tools
+components:
+# Uncomment the lines below if you want to
+# use the latest revision of Android SDK Tools
+- tools
+- platform-tools
+- tools
 
-    # The BuildTools version used by your project
-    - build-tools-$ANDROID_BUILD_TOOLS
-    - android-$ANDROID_API
-    #- android-$EMULATOR_API
+# The BuildTools version used by your project
+- build-tools-$ANDROID_BUILD_TOOLS
+- android-$ANDROID_API
+#- android-$EMULATOR_API
 
-    # Additional components
-    - extra-google-google_play_services
-    - extra-google-m2repository
-    - extra-android-m2repository
-    - addon-google_apis-google-$ANDROID_API
+# Additional components
+- extra-google-google_play_services
+- extra-google-m2repository
+- extra-android-m2repository
+- addon-google_apis-google-$ANDROID_API
 
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
-    #- sys-img-armeabi-v7a-addon-google_apis-google-$ANDROID_API
-    #- sys-img-armeabi-v7a-android-$EMULATOR_API
+# Specify at least one system image,
+# if you need to run emulator(s) during your tests
+#- sys-img-armeabi-v7a-addon-google_apis-google-$ANDROID_API
+#- sys-img-armeabi-v7a-android-$EMULATOR_API
 
-    # Support library
-    - extra-android-support
+# Support library
+- extra-android-support
 
-  licenses:
-    - android-sdk-preview-license-.+
-    - android-sdk-license-.+
-    - google-gdk-license-.+
+licenses:
+- android-sdk-preview-license-.+
+- android-sdk-license-.+
+- google-gdk-license-.+
+
+before_install:
+- yes | sdkmanager "platforms;android-27"
+- chmod +x gradlew
 
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+  - $HOME/.android/build-cache
 
 #before_script:
 #- echo no | android create avd --force -n test -t $ANDROID_API --abi armeabi-v7a
@@ -58,8 +59,5 @@ cache:
 #- android-wait-for-emulator
 #- adb shell input keyevent 82 &
 #
-before_install:
-  - yes | sdkmanager "platforms;android-27"
-  - chmod +x gradlew
 script:
-  -./gradlew build check
+  - ./gradlew build check
