@@ -5,6 +5,11 @@ sudo: false
 
 services: mongodb
 
+addons:
+  apt:
+    packages:
+    - mongodb-org-server
+
 env:
   global:
     - ANDROID_API=28
