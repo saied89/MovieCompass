@@ -7,8 +7,10 @@ services: mongodb
 
 addons:
   apt:
+    sources:
+      - mongodb-3.4-trusty
     packages:
-    - mongodb-org-server
+      - mongodb-org-server
 
 env:
   global:
