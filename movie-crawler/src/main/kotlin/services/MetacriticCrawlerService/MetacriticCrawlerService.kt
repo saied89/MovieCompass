@@ -4,11 +4,11 @@ import api.MetacriticApi
 import io.reactivex.Observable
 import repositories.MovieRepository
 import repositories.getMovies
-import kotlin.Exception
 
 
-
-class MetacriticCrawlerService(val metacriticApi: MetacriticApi, val movieRepository: MovieRepository){
+class MetacriticCrawlerService(val metacriticApi: MetacriticApi,
+                               val movieRepository: MovieRepository,
+                               val cacheHelper: MetacriticPagesCacheHelper? = null){
     fun crawlAllMovies(pages:Int = 100, cacheResults:Boolean = true){
         Observable.fromIterable(0..pages)
                 .flatMap {
@@ -18,8 +18,9 @@ class MetacriticCrawlerService(val metacriticApi: MetacriticApi, val movieReposi
                     val allMovies = res.mapIndexed { index, result ->
                         if(result.response() != null && result.response()?.isSuccessful ?: false)
                             result.response()!!.body()!!.let {
+                                if(cacheResults)
+                                    cacheHelper!!.cachePage(it, index)
                                 it.getMovies()
-
                             }
                         else
                             throw MetacriticGetPageException(index, result.error())
@@ -35,4 +36,3 @@ class MetacriticCrawlerService(val metacriticApi: MetacriticApi, val movieReposi
 
 }
 
-class MetacriticGetPageException(pageNum: Int, error: Throwable?): Exception("There was an error getting page \"$pageNum\": ${error?.message ?: "Error with empty message!"}")
