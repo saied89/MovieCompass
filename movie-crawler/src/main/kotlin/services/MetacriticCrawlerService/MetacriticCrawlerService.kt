@@ -27,11 +27,11 @@ class MetacriticCrawlerService(val metacriticApi: MetacriticApi, val movieReposi
                     movieRepository.initDB(allMovies)
                 }
     }
-}
 
-private fun cacheResult(result: String, pageNum: Int){
 
-}
+    private fun cacheResult(result: String, pageNum: Int){
+
+    }
 
 }
 
