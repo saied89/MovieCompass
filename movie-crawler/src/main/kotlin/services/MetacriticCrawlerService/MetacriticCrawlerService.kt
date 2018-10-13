@@ -2,6 +2,7 @@ package services.MetacriticCrawlerService
 
 import api.MetacriticApi
 import io.reactivex.Observable
+import models.Movie
 import repositories.MovieRepository
 import repositories.getMovies
 
@@ -15,11 +16,13 @@ class MetacriticCrawlerService(val metacriticApi: MetacriticApi,
                     metacriticApi.getPage(it)
                 }.toList()
                 .subscribe { res, err ->
-                    val allMovies = res.mapIndexed { index, result ->
+                    val allMovies: List<Movie> = res.mapIndexed { index, result ->
                         if(result.response() != null && result.response()?.isSuccessful ?: false)
                             result.response()!!.body()!!.let {
-                                if(cacheResults)
-                                    cacheHelper!!.cachePage(it, index)
+                                cacheHelper?.let { _ ->
+                                    if(cacheResults)
+                                        cacheHelper.cachePage(it, index)
+                                }
                                 it.getMovies()
                             }
                         else
