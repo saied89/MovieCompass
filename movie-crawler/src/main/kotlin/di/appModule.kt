@@ -8,7 +8,8 @@ import org.litote.kmongo.KMongo
 import org.litote.kmongo.getCollection
 import repositories.MovieRepository
 import repositories.MovieRepositoryImp
-import services.MetacriticCrawlerService
+import services.MetacriticCrawlerService.MetacriticCrawlerService
+import services.MetacriticCrawlerService.MetacriticPagesCacheHelper
 
 private const val DB_NAME = "movieDB"
 
@@ -18,6 +19,8 @@ val AppModule = module {
     single { provideMetacriticCrawlerService(get(), get()) }
 
     single { provideMongoCollection() }
+
+    single { provideMetacriticPagesCacheHelper() }
 }
 
 private fun provideMovieRepository(collection: MongoCollection<Movie>): MovieRepository = MovieRepositoryImp(collection)
@@ -27,4 +30,6 @@ private fun provideMetacriticCrawlerService(metacriticApi: MetacriticApi, movieR
 
 private fun provideMongoCollection(): MongoCollection<Movie> =
         KMongo.createClient().getDatabase(DB_NAME).getCollection()
+
+private fun provideMetacriticPagesCacheHelper() = MetacriticPagesCacheHelper()
 

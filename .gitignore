@@ -5,3 +5,5 @@ movie-crawler/build/
 build/
 *.iml
 local\.properties
+
+movie-crawler/metacritic_cache/
