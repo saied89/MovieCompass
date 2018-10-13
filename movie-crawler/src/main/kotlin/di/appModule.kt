@@ -8,7 +8,7 @@ import org.litote.kmongo.KMongo
 import org.litote.kmongo.getCollection
 import repositories.MovieRepository
 import repositories.MovieRepositoryImp
-import services.MetacriticCrawlerService
+import services.MetacriticCrawlerService.MetacriticCrawlerService
 
 private const val COLLECTION_NAME = "movieDB"
 

@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import repositories.MovieRepository
 import retrofit2.Response
 import retrofit2.adapter.rxjava2.Result
+import services.MetacriticCrawlerService.MetacriticCrawlerService
 
 @ExtendWith(MockitoExtension::class)
 internal class MetacriticCrawlerServiceTest {
