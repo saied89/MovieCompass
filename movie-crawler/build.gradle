@@ -85,6 +85,7 @@ test {
     }
 }
 
+//Add xml report. Needed for codecov
 jacocoTestReport {
     reports {
         xml.enabled true
