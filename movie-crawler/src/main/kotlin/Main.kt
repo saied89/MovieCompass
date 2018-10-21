@@ -5,6 +5,6 @@ import org.koin.standalone.StandAloneContext
 
 fun main(vararg args: String){
     StandAloneContext.startKoin(listOf(NetwokModule, AppModule))
-    MetacriticCrawlerKomponent().crawlMovies()
+    MetacriticCrawlerKomponent().crawlMovies(2)
 }
 

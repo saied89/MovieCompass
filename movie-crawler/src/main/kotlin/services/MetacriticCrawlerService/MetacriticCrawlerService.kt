@@ -17,8 +17,9 @@ class MetacriticCrawlerService(val metacriticApi: MetacriticApi,
                 }.toList()
                 .subscribe { res, err ->
                     val allMovies: List<Movie> = res.mapIndexed { index, result ->
-                        if(result.response() != null && result.response()?.isSuccessful ?: false)
-                            result.response()!!.body()!!.let {
+                        val response = result.response()
+                        if(response != null && response.isSuccessful ?: false)
+                            response.body()!!.let {
                                 cacheHelper?.let { _ ->
                                     if(cacheResults)
                                         cacheHelper.cachePage(it, index)

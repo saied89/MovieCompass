@@ -16,7 +16,7 @@ private const val DB_NAME = "movieDB"
 val AppModule = module {
     single { provideMovieRepository(get()) }
 
-    single { provideMetacriticCrawlerService(get(), get()) }
+    single { provideMetacriticCrawlerService(get(), get(), get()) }
 
     single { provideMongoCollection() }
 
@@ -25,8 +25,8 @@ val AppModule = module {
 
 private fun provideMovieRepository(collection: MongoCollection<Movie>): MovieRepository = MovieRepositoryImp(collection)
 
-private fun provideMetacriticCrawlerService(metacriticApi: MetacriticApi, movieRepository: MovieRepository) =
-        MetacriticCrawlerService(metacriticApi, movieRepository)
+private fun provideMetacriticCrawlerService(metacriticApi: MetacriticApi, movieRepository: MovieRepository, cacheHelper: MetacriticPagesCacheHelper) =
+        MetacriticCrawlerService(metacriticApi, movieRepository, cacheHelper)
 
 private fun provideMongoCollection(): MongoCollection<Movie> =
         KMongo.createClient().getDatabase(DB_NAME).getCollection()
