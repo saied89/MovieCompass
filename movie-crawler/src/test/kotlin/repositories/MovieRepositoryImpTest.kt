@@ -24,8 +24,8 @@ internal class MovieRepositoryImpTest{
 
     @Test
     fun `save 2 movies to db and check them`(){
-        val movie1 = Movie(title = "title1")
-        val movie2 = Movie(title = "title2")
+        val movie1 = Movie(title = "title1", releaseDate = 0L)
+        val movie2 = Movie(title = "title2", releaseDate = 0L)
         movieRepository.saveMovies(listOf(movie1, movie2))
         val res = movieRepository.getMovies()
         assertEquals(2, res.size)
