@@ -20,6 +20,7 @@ ext{
     retrofit_version = '2.4.0'
     rxjava_version = '2.2.0'
     junit5_version = '5.3.1'
+    arrow_version = '0.7.3'
 }
 
 //jar {
@@ -30,20 +31,20 @@ ext{
 //    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 //}
 
-
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile 'org.jsoup:jsoup:1.11.3'
     compile 'org.litote.kmongo:kmongo:3.8.3'
+    
+    //// Λrrow
+    compile "io.arrow-kt:arrow-core:$arrow_version"
+    ////
 
     //// Koin
-
     // Koin for Kotlin
     implementation "org.koin:koin-core:$koin_version"
-
     // Koin for Unit tests
     testImplementation "org.koin:koin-test:$koin_version"
-
     ////
 
     ////api: networking and json
