@@ -5,11 +5,10 @@ import models.Movie
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 import org.koin.standalone.StandAloneContext.startKoin
+import org.koin.standalone.StandAloneContext.stopKoin
 import org.koin.standalone.inject
 import org.koin.test.KoinTest
-import org.litote.kmongo.KMongo
 import org.litote.kmongo.deleteMany
-import org.litote.kmongo.getCollection
 import testDI.testModule
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -41,6 +40,11 @@ internal class MovieRepositoryImpTest: KoinTest{
     @Test
     fun `save 100 movies to db and retrieve them`(){
 
+    }
+
+    @AfterAll
+    fun tearDown(){
+        stopKoin()
     }
 
 }
