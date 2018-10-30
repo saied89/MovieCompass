@@ -4,18 +4,25 @@ import com.mongodb.client.MongoCollection
 import models.Movie
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
+import org.koin.standalone.StandAloneContext.startKoin
+import org.koin.standalone.inject
+import org.koin.test.KoinTest
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.deleteMany
 import org.litote.kmongo.getCollection
-
-private const val DB_NAME = "movieTest"
+import testDI.testModule
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal class MovieRepositoryImpTest{
+internal class MovieRepositoryImpTest: KoinTest{
 
 
-    val movieTestCollection: MongoCollection<Movie> = KMongo.createClient().getDatabase(DB_NAME).getCollection()
-    val movieRepository = MovieRepositoryImp(movieTestCollection)
+    val movieTestCollection: MongoCollection<Movie> by inject()
+    val movieRepository: MovieRepository by inject()
+
+    @BeforeAll
+    fun setup(){
+        startKoin(listOf(testModule))
+    }
 
     @BeforeEach
     fun cleanDB(){
