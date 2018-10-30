@@ -1,11 +1,13 @@
 package services.MetacriticCrawlerService
 
 import di.AppModule
+import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.koin.standalone.StandAloneContext.startKoin
+import org.koin.standalone.StandAloneContext.stopKoin
 import org.koin.standalone.inject
 import org.koin.test.KoinTest
 
@@ -32,5 +34,10 @@ internal class MetacriticPagesCacheHelperTest: KoinTest{
     fun `read cache returns null when file doesnt exist`(){
         val res = metacriticPagesCacheHelper.getCachedPage(8713618)
         assertNull(res)
+    }
+
+    @AfterAll
+    fun tearDown(){
+        stopKoin()
     }
 }
