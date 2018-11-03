@@ -9,4 +9,6 @@ interface MovieRepository {
 //    fun getUpcommingMovies(): List<Movie>
 //    fun getNewestReleases(): List<Movie>
     fun getMovies(date: Date = Date(), page: Int = 0): List<Movie>
+
+    fun getInfoLessMovies(): List<Movie>
 }

@@ -1,6 +1,6 @@
 package services.MetacriticCrawlerService
 
-import di.AppModule
+import di.appModule
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
@@ -16,7 +16,7 @@ internal class MetacriticPagesCacheHelperTest: KoinTest{
 
     @BeforeAll
     fun setup(){
-        startKoin(listOf(AppModule))
+        startKoin(listOf(appModule))
     }
 
     val metacriticPagesCacheHelper: MetacriticPagesCacheHelper by inject()

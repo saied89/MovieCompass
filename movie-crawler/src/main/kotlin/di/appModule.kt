@@ -11,7 +11,7 @@ import repositories.MovieRepositoryImp
 import services.MetacriticCrawlerService.MetacriticCrawlerService
 import services.MetacriticCrawlerService.MetacriticPagesCacheHelper
 
-val AppModule = module {
+val appModule = module {
 
     single { provideMetacriticCrawlerService(get(), get(), get()) }
 

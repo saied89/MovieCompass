@@ -1,33 +1,59 @@
 package di
 
 import api.MetacriticApi
-import com.squareup.moshi.KotlinJsonAdapterFactory
+import api.OmdbApi
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.apache.commons.configuration2.builder.fluent.Configurations
+import org.koin.core.parameter.ParameterList
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module.module
-import org.litote.kmongo.json
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.io.File
 import java.util.concurrent.TimeUnit
+import javax.security.auth.login.Configuration
 
 private const val MOVIES_LIST_URL = "https://www.metacritic.com/browse/dvds/release-date/"
 
-private const val MOVIES_DATA_URL: String = ""
+private const val MOVIES_DATA_URL: String = "http://www.omdbapi.com/"
 
-const val METACRITIC_API_NAME = "METACRITIC_API_NAME"
+private const val METACRITIC_API_NAME = "METACRITIC_API_NAME"
+
+private const val OMDB_API_NAME = "OMDB_API_NAME"
 
 
-val NetwokModule = module {
-    single { createOkHttpClient() }
-    single(METACRITIC_API_NAME) { provideMetacriticRetrofit(get()) }
+val netwokModule = module {
+    single(METACRITIC_API_NAME) { createMetacriticOkHttpClient() }
+    single(METACRITIC_API_NAME) { provideMetacriticRetrofit(get(METACRITIC_API_NAME)) }
+
+    single(OMDB_API_NAME) {
+        val configuration = Configurations().properties(File("movie.properties"))
+        with(configuration){
+            getString("omdb_apiKey")
+        }
+    }
+    single(OMDB_API_NAME) { createOMDBOkHttpClient(get(OMDB_API_NAME)) }
+    single { provideMoshi() }
+    single { provideMoshiConverterFactory(get()) }
+    single(OMDB_API_NAME) {(httpUrl: HttpUrl?) ->
+        provideApiRetrofit(get(OMDB_API_NAME), get(), httpUrl)
+    }
+
     single { createWebService<MetacriticApi>(get(METACRITIC_API_NAME)) }
+    single { (httpUrl: HttpUrl) ->
+        createWebService<OmdbApi>(get(OMDB_API_NAME, parameters = { parametersOf(httpUrl)}))
+    }
 }
 
 
-fun createOkHttpClient(): OkHttpClient {
+private fun createMetacriticOkHttpClient(): OkHttpClient {
     return OkHttpClient.Builder()
             .addInterceptor {
                 it.request().newBuilder().addHeader(
@@ -36,41 +62,47 @@ fun createOkHttpClient(): OkHttpClient {
                     it.proceed(this.build())
                 }
             }
-//            .addInterceptor {
-//                println("*** ${it.request().method()} Request to ${it.request().url()}")
-//                println("Headers: ${it.request().headers().toMultimap()}")
-//                println("Body: ${it.request().body()}")
-//                it.proceed(it.request())
-//            }
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
             .readTimeout(60, TimeUnit.SECONDS)
             .connectTimeout(60, TimeUnit.SECONDS)
             .build()
 }
 
-fun provideMoshi(): Moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
 
-fun provideMoshiConverterFactory(moshi: Moshi) : MoshiConverterFactory = MoshiConverterFactory.create(moshi)
+private fun createOMDBOkHttpClient(apiKey: String): OkHttpClient =
+        OkHttpClient.Builder()
+                .addInterceptor {
+                    val url = it.request().url().newBuilder().addQueryParameter("apikey",apiKey).build()
+                    val request = it.request().newBuilder().url(url).build()
+                    it.proceed(request)
+                }
+                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build()
 
-fun provideScalarConverterFactory(): ScalarsConverterFactory = ScalarsConverterFactory.create()
 
-fun provideMetacriticRetrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
+private fun provideMetacriticRetrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(MOVIES_LIST_URL)
         .client(client)
         .addConverterFactory(ScalarsConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
 
-fun provideApiRetrofit(client: OkHttpClient, moshiConverterFactory: MoshiConverterFactory) : Retrofit = Retrofit.Builder()
-        .baseUrl(MOVIES_DATA_URL)
-        .client(client)
-        .addConverterFactory(moshiConverterFactory)
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+private fun provideMoshi(): Moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
         .build()
 
+private fun provideMoshiConverterFactory(moshi: Moshi) : MoshiConverterFactory = MoshiConverterFactory.create(moshi)
+
+private fun provideApiRetrofit(client: OkHttpClient, moshiConverterFactory: MoshiConverterFactory, baseUrl: HttpUrl?) : Retrofit {
+    val builder = Retrofit.Builder()
+    builder.baseUrl(baseUrl ?: HttpUrl.get(MOVIES_DATA_URL)) //baseUrl should be null except for testing
+    return builder
+            .client(client)
+            .addConverterFactory(moshiConverterFactory)
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .build()
+}
 
 
 
-inline fun <reified T> createWebService(retrofit: Retrofit): T = retrofit.create(T::class.java)
+private inline fun <reified T> createWebService(retrofit: Retrofit): T = retrofit.create(T::class.java)

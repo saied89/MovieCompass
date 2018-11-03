@@ -35,31 +35,45 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile 'org.jsoup:jsoup:1.11.3'
     compile 'org.litote.kmongo:kmongo:3.8.3'
-    
+
     //// Λrrow
     compile "io.arrow-kt:arrow-core:$arrow_version"
+
+    ////
+    compile 'org.apache.commons:commons-configuration2:2.4'//for reading configuration files
+    // https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'// runtime?! dependency of common-configuration https://commons.apache.org/proper/commons-configuration/dependencies.html
+
+
+    ////Kotlin
+    // coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     ////
 
     //// Koin
+
     // Koin for Kotlin
     implementation "org.koin:koin-core:$koin_version"
+
     // Koin for Unit tests
     testImplementation "org.koin:koin-test:$koin_version"
+
     ////
 
     ////api: networking and json
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-    implementation('com.squareup.moshi:moshi-kotlin:1.7.0')
+    implementation 'com.squareup.moshi:moshi-kotlin:1.7.0'
     implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+
     ////
 
     ////reactiveStreams
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
-    implementation 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0'
-
     ////
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"

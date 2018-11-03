@@ -3,6 +3,7 @@ package repositories
 import com.mongodb.client.MongoCollection
 import models.Movie
 import org.litote.kmongo.deleteMany
+import org.litote.kmongo.eq
 import java.util.*
 
 class MovieRepositoryImp(val mongoCollection: MongoCollection<Movie>): MovieRepository {
@@ -15,7 +16,11 @@ class MovieRepositoryImp(val mongoCollection: MongoCollection<Movie>): MovieRepo
         mongoCollection.insertMany(movies)
     }
 
-    override fun getMovies(date: Date, page: Int): List<Movie> {
-        return mongoCollection.find().asSequence().toList()
-    }
+    override fun getMovies(date: Date, page: Int): List<Movie> =
+            mongoCollection.find().asSequence().toList()
+
+
+    override fun getInfoLessMovies(): List<Movie> =
+            mongoCollection.find(Movie::omdbData eq null).asSequence().toList()
+
 }
