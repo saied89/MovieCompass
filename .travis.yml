@@ -54,7 +54,7 @@ before_install:
 - chmod +x gradlew
 
 before_script:
-  - mv movie.properties.sample movie.properties
+  - mv movie-crawler/movie.properties.sample movie-crawler/movie.properties
 
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
