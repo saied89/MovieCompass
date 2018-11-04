@@ -52,6 +52,18 @@ internal class MovieRepositoryImpTest: KoinTest{
         assert(res[0].equals(movie1))
     }
 
+    @Test
+    fun `setOmdbDataOfMovie sets omdbdata`(){
+        val movie1 = Movie(title = "title1", releaseDate = 0L)
+        val omdbData = getSampleOMDBInfo()
+
+        movieRepository.saveMovies(listOf(movie1))
+        val res = movieRepository.setOmdbDataOfMovie(movie1, omdbData)
+
+        assert(res.wasAcknowledged())
+        assertNotNull(movieRepository.getMovies()[0].omdbData)
+    }
+
     private fun getSampleOMDBInfo(): OmdbData{
         val moshi: Moshi = get()
         val adapter = moshi.adapter(OmdbData::class.java)

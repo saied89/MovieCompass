@@ -1,6 +1,8 @@
 package repositories
 
+import com.mongodb.client.result.UpdateResult
 import models.Movie
+import models.OmdbData
 import java.util.*
 
 interface MovieRepository {
@@ -11,4 +13,6 @@ interface MovieRepository {
     fun getMovies(date: Date = Date(), page: Int = 0): List<Movie>
 
     fun getInfoLessMovies(): List<Movie>
+
+    fun setOmdbDataOfMovie(movie: Movie, omdbData: OmdbData): UpdateResult
 }
