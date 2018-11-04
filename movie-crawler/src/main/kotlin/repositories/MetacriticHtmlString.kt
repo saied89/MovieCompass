@@ -9,10 +9,10 @@ typealias MetacriticHtmlString = String
 fun MetacriticHtmlString.getMovies(): List<Movie> =
         Jsoup.parse(this)
             .body()
-            .select(".summary_row")
+            .select(".clamp-summary-wrap")
             .map { element ->
-                val title = element.select(".title a").html()
-                val dateStr = element.select(".date_wrapper span:first-child").html()
+                val title = element.select("a.title").html()
+                val dateStr = element.select(".clamp-details span:nth-child(2)").html()
                 val date = parseDate(dateStr)
                 Movie(title = title, releaseDate = date)
             }
