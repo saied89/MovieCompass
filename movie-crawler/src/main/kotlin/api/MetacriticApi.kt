@@ -9,5 +9,5 @@ import retrofit2.http.Query
 interface MetacriticApi {
 
     @GET("available/date")
-    fun getPage( @Query("page") page:Int = 0): Observable<Result<MetacriticHtmlString>>
+    fun getPage(@Query("page") page: Int = 0): Observable<Result<MetacriticHtmlString>>
 }

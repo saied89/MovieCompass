@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-object MetacriticDateUtil{
+object MetacriticDateUtil {
 
     private const val METACRITIC_DATE_PATTERN = "MMMM d, yyyy"
 
@@ -15,5 +15,4 @@ object MetacriticDateUtil{
 
     fun formatDate(epochDay: Long): String =
             LocalDate.ofEpochDay(epochDay).format(dateTimeFormatter)
-
 }

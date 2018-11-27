@@ -7,9 +7,11 @@ import repositories.MovieRepository
 import repositories.getMovies
 
 
-class MetacriticCrawlerService(val metacriticApi: MetacriticApi,
-                               val movieRepository: MovieRepository,
-                               val cacheHelper: MetacriticPagesCacheHelper? = null){
+class MetacriticCrawlerService(
+        val metacriticApi: MetacriticApi,
+        val movieRepository: MovieRepository,
+        val cacheHelper: MetacriticPagesCacheHelper? = null
+) {
     fun crawlAllMovies(pages:Int = 100, cacheResults:Boolean = true){
         Observable.fromIterable(0..pages)
                 .flatMap {
@@ -18,13 +20,13 @@ class MetacriticCrawlerService(val metacriticApi: MetacriticApi,
                 .subscribe { res, err ->
                     val allMovies: List<Movie> = res.mapIndexed { index, result ->
                         val response = result.response()
-                        if(response != null && response.isSuccessful ?: false)
-                            response.body()!!.let {
+                        if ( response != null && response.isSuccessful )
+                            response.body()!!.let { htmlStr ->
                                 cacheHelper?.let { _ ->
-                                    if(cacheResults)
-                                        cacheHelper.cachePage(it, index)
+                                    if (cacheResults)
+                                        cacheHelper.cachePage(htmlStr, index)
                                 }
-                                it.getMovies()
+                                htmlStr.getMovies()
                             }
                         else
                             throw MetacriticGetPageException(index, result.error())

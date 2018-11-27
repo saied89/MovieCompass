@@ -5,7 +5,6 @@ import com.nhaarman.mockitokotlin2.capture
 import io.reactivex.Observable
 import models.Movie
 import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentCaptor
@@ -26,12 +25,12 @@ internal class MetacriticCrawlerServiceTest {
     @Mock lateinit var movieRepository: MovieRepository
     @Captor lateinit var captor: ArgumentCaptor<List<Movie>>
 
-
     @Test
     fun `crawlAllMovies returns 200 movies from 2 pages`() {
 
         val resBody = getMockBody()
-        `when`(metacriticApi.getPage(ArgumentMatchers.any(Int::class.java))).thenReturn(Observable.just(Result.response(Response.success(resBody))))
+        `when`(metacriticApi.getPage(ArgumentMatchers.any(Int::class.java)))
+                .thenReturn(Observable.just(Result.response(Response.success(resBody))))
 
         val crawlerService = MetacriticCrawlerService(metacriticApi, movieRepository)
         crawlerService.crawlAllMovies(1)
